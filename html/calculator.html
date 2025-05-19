@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculateur de Recette</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <main>
+    <h1>Adaptation de recettes</h1>
+
+    <form id="recette-form" aria-describedby="instructions">
+      <p id="instructions">Choisissez une recette et indiquez le nombre de personnes pour adapter les ingrédients.</p>
+
+      <label for="recette-select">Recette :</label>
+      <select id="recette-select" name="recette" required aria-required="true"></select>
+
+      <label for="nb-personnes">Nombre de personnes :</label>
+      <input type="number" id="nb-personnes" name="nb-personnes" min="1" required aria-required="true" />
+
+      <button type="submit">Adapter la recette</button>
+    </form>
+
+    <section aria-live="polite">
+      <h2>Ingrédients adaptés</h2>
+      <ul id="ingredients-liste"></ul>
+    </section>
+  </main>
+
+  <noscript>
+    <p style="color:red;">JavaScript est désactivé dans votre navigateur. Cette fonctionnalité nécessite JavaScript pour fonctionner.</p>
+  </noscript>
+
+  <script src="../js/calculator.js"></script>
+</body>
+</html>
