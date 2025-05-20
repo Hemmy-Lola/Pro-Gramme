@@ -1,0 +1,30 @@
+[
+     {
+      "nom": "Gâteau au chocolat",
+      "personnes": 4,
+      "ingredients": [
+        { "nom": "Farine", "quantite": 200, "unite": "g" },
+        { "nom": "Sucre", "quantite": 100, "unite": "g" },
+        { "nom": "Œufs", "quantite": 3, "unite": "unités" }
+      ]
+    },
+    {
+      "nom": "Crêpes",
+      "personnes": 2,
+      "ingredients": [
+        { "nom": "Farine", "quantite": 125, "unite": "g" },
+        { "nom": "Lait", "quantite": 250, "unite": "ml" },
+        { "nom": "Œufs", "quantite": 1, "unite": "unité" }
+      ]
+    },
+    {
+      "nom": "Soupe de légumes",
+      "personnes": 6,
+      "ingredients": [
+        { "nom": "Carottes", "quantite": 500, "unite": "g" },
+        { "nom": "Pommes de terre", "quantite": 400, "unite": "g" },
+        { "nom": "Poireaux", "quantite": 2, "unite": "unités" }
+      ]
+    }
+]
+   
