@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – Pro'Gramme</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+  <div class="page-container">
+    <header class="site-header">
+      <div class="logo">Pro'Gramme</div>
+      <nav>
+        <ul>
+          <li><a href="/html/dashboard.html" class="nav-link active">Tableau de bord</a></li>
+          <li><a href="/html/recipes.html" class="nav-link">Recettes</a></li>
+          <li><a href="/html/calculator.html" class="nav-link">Calculateur</a></li>
+          <li><a href="/html/planning.html" class="nav-link">Planning</a></li>
+          <li><a href="/html/stock.html" class="nav-link">Stock</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="dashboard-grid">
+      <section class="dashboard-card" aria-labelledby="fav-title">
+        <h2 id="fav-title">Recettes favorites</h2>
+        <div class="scroll-container">
+          <ul id="recettes-favorites" class="card-list">
+            <!-- Contenu dynamique -->
+          </ul>
+        </div>
+        <!-- <a href="/html/recipes.html" class="cta">Voir toutes les recettes</a> -->
+      </section>
+
+      <section class="dashboard-card" aria-labelledby="stock-alert-title">
+        <h2 id="stock-alert-title">Ingrédients à recharger</h2>
+        <div class="scroll-container">
+          <ul id="alertes-stock">
+            <!-- Ingrédients manquants à afficher -->
+          </ul>
+        </div>
+      </section>
+
+      <section class="dashboard-card" aria-labelledby="planning-title">
+        <h2 id="planning-title">Recettes du jour</h2>
+        <div class="scroll-container">
+          <ul id="recettes-jour">
+            <!-- Planning recipes du jour -->
+          </ul>
+        </div>
+      </section>
+
+      <aside class="dashboard-card" role="complementary" aria-labelledby="stat-title">
+        <h2 id="stat-title">Statistiques</h2>
+        <p>Total de recettes : <span id="total-recettes">—</span></p>
+        <p>Recettes du jour : <span id="total-jour">—</span></p>
+        <p>Ingrédients en stock : <span id="total-stocks">—</span></p>
+      </aside>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Pro'Gramme — Tous droits réservés.</p>
+    </footer>
+  </div>
+
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>
