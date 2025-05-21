@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestion du Stock</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+
+    :root {
+      color-scheme: light dark;
+    }
+
+    body {
+      font-family: sans-serif;
+      background: #fff;
+      color: #000;
+      line-height: 1.6;
+      padding: 1rem;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 0.5rem;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 0.4rem;
+      margin-top: 0.2rem;
+      font-size: 1rem;
+      border: 1px solid #000;
+      background: #fff;
+      color: #000;
+    }
+
+    button {
+      margin-top: 1rem;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    tr:nth-child(even) {
+      background-color: #eee;
+    }
+
+    [role="alert"] {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      background: #fdd;
+      color: #900;
+      border: 1px solid #900;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Gestion du stock</h1>
+
+    <section aria-labelledby="form-titre">
+      <h2 id="form-titre">Ajouter un ingrédient</h2>
+      <form id="form-ajout" aria-describedby="info-form">
+        <label for="nom">Nom de l'ingrédient</label>
+        <input type="text" id="nom" name="nom" required>
+
+        <label for="quantite">Quantité</label>
+        <input type="number" id="quantite" name="quantite" min="0" step="any" required>
+
+        <label for="unite">Unité</label>
+        <select id="unite" name="unite">
+          <option value="g">g</option>
+          <option value="ml">ml</option>
+          <option value="unité">unité</option>
+        </select>
+
+        <button type="submit">Ajouter au stock</button>
+      </form>
+    </section>
+
+    <section aria-labelledby="table-titre">
+      <h2 id="table-titre">Stock actuel</h2>
+      <div id="message" role="alert" style="display:none;"></div>
+      <table aria-label="Tableau des ingrédients en stock">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Quantité</th>
+            <th>Unité</th>
+          </tr>
+        </thead>
+        <tbody id="table-stock">
+          <tr><td colspan="3">Aucun ingrédient pour le moment.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <noscript>
+    <div role="alert" style="background:#f4f4f4; color:#000; padding:1rem; border:1px solid #000; margin-top:1rem;">
+      ⚠️ JavaScript est désactivé. L’ajout et la mise à jour du stock nécessitent JavaScript pour fonctionner.
+    </div>
+  </noscript>
+
+  <script>
+    // Fichier JS minimal directement dans la page pour éviter les requêtes
+    const form = document.getElementById('form-ajout');
+    const tableBody = document.getElementById('table-stock');
+    const message = document.getElementById('message');
+
+    const stock = {};
+
+    function afficherStock() {
+      tableBody.innerHTML = '';
+      const entries = Object.values(stock);
+
+      if (entries.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="3">Aucun ingrédient pour le moment.</td></tr>';
+        return;
+      }
+
+      for (const ingr of entries) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${ingr.nom}</td>
+          <td>${ingr.quantite}</td>
+          <td>${ingr.unite}</td>
+        `;
+        tableBody.appendChild(row);
+      }
+    }
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const nom = document.getElementById('nom').value.trim();
+      const quantite = parseFloat(document.getElementById('quantite').value);
+      const unite = document.getElementById('unite').value;
+
+      if (!nom || isNaN(quantite) || quantite <= 0) {
+        message.style.display = 'block';
+        message.textContent = 'Veuillez entrer un nom et une quantité valide.';
+        return;
+      }
+
+      message.style.display = 'none';
+      const cle = `${nom.toLowerCase()}|${unite}`;
+      if (stock[cle]) {
+        stock[cle].quantite += quantite;
+      } else {
+        stock[cle] = { nom, quantite, unite };
+      }
+
+      form.reset();
+      afficherStock();
+    });
+
+    afficherStock();
+  </script>
+</body>
+</html>
