@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Calculateur de Recette</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="logo">Pro'Gramme</div>
+        <button class="burger-menu" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav-menu">
+          <ul>
+            <li><a href="/index.html" class="nav-link">Tableau de bord</a></li>
+            <li><a href="/html/recipes.html" class="nav-link">Recettes</a></li>
+            <li><a href="/html/calculator.html" class="nav-link active">Calculateur</a></li>
+            <li><a href="/html/planning.html" class="nav-link">Planning</a></li>
+            <li><a href="/html/stock.html" class="nav-link">Stock</a></li>
+          </ul>
+        </nav>
+      </header>
+    
+    <main class="calculator-container">
+        <h1 class="centered-title">Adaptation de recettes</h1>
+
+        <div class="calculator-layout">
+            <form class="calculator-form-section">
+                <label for="recette-select">Recette :</label>
+                <select id="recette-select" name="recette" required aria-required="true"></select>
+
+                <label for="nb-personnes">Nombre de personnes :</label>
+                <input type="number" id="nb-personnes" name="nb-personnes" min="1" required aria-required="true" />
+
+                <button type="submit" class="cta">Adapter la recette</button>
+            </form>
+
+            <section class="calculator-results" aria-live="polite">
+                <h2>Ingrédients adaptés</h2>
+                <ul id="ingredients-liste"></ul>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Pro'Gramme — Tous droits réservés.</p>
+    </footer>
+
+    <noscript>
+        <p style="color:red;">JavaScript est désactivé dans votre navigateur. Cette fonctionnalité nécessite JavaScript pour fonctionner.</p>
+    </noscript>
+
+    <script src="../js/calculator.js"></script>
+    <script src="../js/nav.js"></script>
+</body>
+</html>
