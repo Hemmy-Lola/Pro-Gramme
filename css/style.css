@@ -1,7 +1,330 @@
+/* Style de base */
 :root {
-  --color-background: #FFFBDB;
-  --color-secondary: #E5E5E5;
-  --color-text: #3A0E04;
-  --color-accent: #093A3E;
-  --color-border: #E5E5E5;
+  --color-background: #F5F3EF;
+  --color-card: #FFFFFF;
+  --color-text: #2D1F14;
+  --color-accent: #814027;
+  --color-accent-hover: #7D430A;
+  --color-border: #E6DDC6;
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.site-header {
+  background-color: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.nav-link:hover {
+  color: var(--color-accent);
+}
+
+.nav-link.active {
+  color: var(--color-accent);
+  font-weight: bold;
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+section,
+aside {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  height: 280px;
+  overflow-y: auto;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--color-accent);
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+a.cta {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-accent);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+a.cta:hover {
+  background-color: var(--color-accent-hover);
+}
+
+footer {
+  background-color: var(--color-background);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+@media screen and (max-width: 768px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+}
+/* Adaptation en fonction de la taille d'écran des users */
+@media (max-width: 600px) {
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  main {
+    padding: 1rem;
+  }
+
+  section,
+  aside {
+    height: auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  main {
+    padding: 3rem;
+  }
+
+  section,
+  aside {
+    height: 400px;
+  }
+}
+/* Dans le cas où l'user veut imprimer sa page */
+@media print {
+  body {
+    background-color: #fff;
+    color: #000;
+  }
+
+  .site-header,
+  footer {
+    display: none;
+  }
+
+  main {
+    padding: 0;
+  }
+
+  section,
+  aside {
+    border: none;
+    box-shadow: none;
+    height: auto;
+  }
+}
+/* Pour les écrans à haute résolutions */
+@media (min-resolution: 192dpi) {
+  body {
+    font-size: 1.1rem;
+  }
+
+  .site-header,
+  footer {
+    padding: 2rem;
+  }
+
+  main {
+    padding: 4rem;
+  }
+
+  section,
+  aside {
+    height: 500px;
+  }
+}
+/* Ajout d'un effet dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #1E1E1E;
+    --color-card: #2D2D2D;
+    --color-text: #FFFFFF;
+    --color-accent: #FF9800;
+    --color-accent-hover: #FFA726;
+    --color-border: #3C3C3C;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .site-header,
+  footer {
+    background-color: var(--color-background);
+  }
+
+  section,
+  aside {
+    background-color: var(--color-card);
+  }
+}
+/* Mode contraste : Pour les personnes mayvoyantes ou ayant des déficiances au niveau de la vision */
+@media (forced-colors: active) {
+  :root {
+    --color-background: Window;
+    --color-card: Window;
+    --color-text: WindowText;
+    --color-accent: Highlight;
+    --color-accent-hover: HighlightText;
+    --color-border: ButtonFace;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .site-header,
+  footer {
+    background-color: var(--color-background);
+  }
+
+  section,
+  aside {
+    background-color: var(--color-card);
+  }
+}
+/* Adaptation en fonction de la taille d'écran des users */
+@media print {
+  body {
+    background-color: #fff;
+    color: #000;
+  }
+
+  .site-header,
+  footer {
+    display: none;
+  }
+
+  main {
+    padding: 0;
+  }
+
+  section,
+  aside {
+    border: none;
+    box-shadow: none;
+    height: auto;
+  }
+}
+
+@media (min-resolution: 192dpi) {
+  body {
+    font-size: 1.1rem;
+  }
+
+  .site-header,
+  footer {
+    padding: 2rem;
+  }
+
+  main {
+    padding: 4rem;
+  }
+
+  section,
+  aside {
+    height: 500px;
+  }
+}
+/* Lorque l'on utilise un screen au clic */
+@media (hover: hover) {
+  .nav-link {
+    cursor: pointer;
+  }
+
+}
+/* Lorsque l'on utilise un screen au tap */
+@media (hover: none) {
+  .nav-link {
+    cursor: pointer;
+  }
+
+  .nav-link:hover {
+    background-color: transparent;
+  }
+}
+/* Réduction des animations pour les utilisateurs qui préfèrent moins de mouvement */
+@media (prefers-reduced-motion: reduce) {
+  .nav-link {
+    transition: none;
+  }
+
+  a.cta {
+    transition: none;
+  }
+} 
