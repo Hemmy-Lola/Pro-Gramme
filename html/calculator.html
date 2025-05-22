@@ -26,7 +26,7 @@
       </header>
     
     <main class="calculator-container">
-        <h1 class="centered-title">Adaptation de recettes</h1>
+        <h1 class="centered-title">Calculateur de quantité</h1>
 
         <div class="calculator-layout">
             <form class="calculator-form-section" id="recette-form">
@@ -45,10 +45,18 @@
             </section>
         </div>
     </main>
-    <section id="stock-section" aria-labelledby="stock-titre" role="region">
+    <div id="stock-section" class="stock-display">
         <h2 id="stock-titre">Stock actuel</h2>
-        <ul id="stock-liste" role="list"></ul>
-      </section>
+        <table aria-label="Tableau des ingrédients en stock">
+            <thead>
+                <tr>
+                    <th>Ingrédients</th>
+                </tr>
+            </thead>
+            <tbody id="stock-liste">
+            </tbody>
+        </table>
+    </div>
   
     <footer>
         <p>&copy; 2025 Pro'Gramme — Tous droits réservés.</p>
