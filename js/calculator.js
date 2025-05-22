@@ -10,7 +10,6 @@ let recettes = [];
 
 document.addEventListener('DOMContentLoaded', () => {
   chargerStockJSON().then(() => {
-    // Affiche le stock initial dans la liste
     afficherStock();
 
     fetch('../data/recipes.json')
@@ -73,7 +72,6 @@ function adapterRecette() {
   const nbCible = base * multiple;
   const ratio = nbCible / base;
 
-  // Préparation de la recette adaptée
   const recetteAdaptee = recette.ingredients.map(ingr => {
     let qteCalc = ingr.quantite * ratio;
     if (/unites?|unite/i.test(ingr.unite)) {
@@ -84,13 +82,11 @@ function adapterRecette() {
     return { ...ingr, quantite: qteCalc };
   });
 
-  // Vérification de disponibilité dans le stock
   if (!verifierDisponibiliteRecette(recetteAdaptee)) {
     const alerte = document.createElement('p');
     alerte.textContent = '❌ Ingredients insuffisants en stock pour cette recette.';
     alerte.style.color = 'red';
 
-    // Détail des manques
     recetteAdaptee.forEach(({ nom, quantite, unite }) => {
       const key = `${nom.toLowerCase()}|${unite.toLowerCase()}`;
       const stockItem = getStock()[key];
@@ -108,7 +104,6 @@ function adapterRecette() {
     return;
   }
 
-  // Alerte douce si des unités sont en fraction
   const problematiques = recette.ingredients.filter(ingr => {
     if (/unites?|unite/i.test(ingr.unite)) {
       const calc = ingr.quantite * ratio;
@@ -133,7 +128,6 @@ function adapterRecette() {
     liste.appendChild(msg);
   }
 
-  // Message explicatif
   const titre = document.createElement('p');
   if (nb !== nbCible) {
     titre.innerHTML = `
@@ -147,16 +141,14 @@ function adapterRecette() {
   }
   liste.appendChild(titre);
 
-  // Affichage des ingrédients adaptés
   recetteAdaptee.forEach(ingr => {
     const li = document.createElement('li');
     li.textContent = `${ingr.nom} : ${ingr.quantite} ${ingr.unite}`;
     liste.appendChild(li);
   });
 
-  // Mise à jour du stock
   if (deduireIngredientsRecette(recetteAdaptee)) {
-    sauvegarderStock(); // si tu as cette fonction, sinon la supprimer ou adapter
+    sauvegarderStock();
     afficherStock();
   } else {
     const erreur = document.createElement('p');

@@ -1,5 +1,3 @@
-// stock.js
-
 let stockData = {};
 
 export function getStock() {
@@ -15,11 +13,10 @@ export function chargerStockJSON() {
         const key = `${nom.toLowerCase()}|${unite.toLowerCase()}`;
         stockData[key] = { nom, quantite, unite };
       });
-      afficherStock(); // pour afficher dans <ul id="stock-liste"> si présent
+      afficherStock();
     });
 }
 
-// Ajouter un ingrédient au stock
 export function ajouterAuStock(nom, quantite, unite) {
   if (!nom || quantite <= 0 || !unite) {
     throw new Error('Données invalides pour l\'ajout au stock');
@@ -27,11 +24,9 @@ export function ajouterAuStock(nom, quantite, unite) {
 
   const key = `${nom.toLowerCase()}|${unite.toLowerCase()}`;
   
-  // Si l'ingrédient existe déjà, on ajoute à la quantité existante
   if (stockData[key]) {
     stockData[key].quantite += parseFloat(quantite);
   } else {
-    // Sinon, on crée une nouvelle entrée
     stockData[key] = {
       nom: nom,
       quantite: parseFloat(quantite),
@@ -39,19 +34,16 @@ export function ajouterAuStock(nom, quantite, unite) {
     };
   }
 
-  // Mise à jour de l'affichage
   afficherStock();
   
-  // On retourne les données mises à jour pour pouvoir les utiliser
   return stockData;
 }
 
-// Sauvegarder les modifications dans le fichier JSON
 export function sauvegarderStock() {
   const stockArray = Object.values(stockData);
   
   return fetch('../data/stock.json', {
-    method: 'PUT', // ou POST selon votre API
+    method: 'PUT', 
     headers: {
       'Content-Type': 'application/json'
     },
@@ -63,7 +55,6 @@ export function sauvegarderStock() {
   });
 }
 
-// Initialiser le formulaire d'ajout
 export function initialiserFormulaire() {
   const form = document.getElementById('form-ajout');
   if (!form) return;
@@ -78,13 +69,11 @@ export function initialiserFormulaire() {
     try {
       ajouterAuStock(nom, quantite, unite);
       
-      // Mise à jour du tableau si présent
       const tableStock = document.getElementById('table-stock');
       if (tableStock) {
         afficherStockDansTable(tableStock);
       }
       
-      // Afficher un message de succès
       const message = document.getElementById('message');
       if (message) {
         message.style.display = 'block';
@@ -92,18 +81,15 @@ export function initialiserFormulaire() {
         message.style.color = '#060';
         message.textContent = `${nom} ajouté au stock avec succès!`;
         
-        // Faire disparaître le message après 3 secondes
         setTimeout(() => {
           message.style.display = 'none';
         }, 3000);
       }
       
-      // Réinitialiser le formulaire
       form.reset();
       document.getElementById('nom').focus();
       
     } catch (error) {
-      // Afficher un message d'erreur
       const message = document.getElementById('message');
       if (message) {
         message.style.display = 'block';
@@ -115,7 +101,6 @@ export function initialiserFormulaire() {
   });
 }
 
-// Affichage dans <ul id="stock-liste"> (ex: calculator.html)
 export function afficherStock() {
   const liste = document.getElementById('stock-liste');
   if (!liste) return;
@@ -129,7 +114,6 @@ export function afficherStock() {
   });
 }
 
-// Affichage dans tableau <tbody id="table-stock"> (ex: stocks.html)
 export function afficherStockDansTable(tableBody) {
   if (!tableBody) return;
 
@@ -163,7 +147,6 @@ export function verifierDisponibiliteRecette(ingredients) {
 export function deduireIngredientsRecette(ingredients) {
   let possible = true;
 
-  // 1 - Vérification disponibilité
   ingredients.forEach(({ nom, quantite, unite }) => {
     const key = `${nom.toLowerCase()}|${unite.toLowerCase()}`;
     const item = stockData[key];
@@ -175,13 +158,11 @@ export function deduireIngredientsRecette(ingredients) {
 
   if (!possible) return false;
 
-  // 2 - Déduction stock
   ingredients.forEach(({ nom, quantite, unite }) => {
     const key = `${nom.toLowerCase()}|${unite.toLowerCase()}`;
     stockData[key].quantite -= quantite;
   });
 
-  // Mise à jour affichage si liste visible (optionnel)
   afficherStock();
 
   return true;
