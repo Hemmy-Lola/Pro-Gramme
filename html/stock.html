@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Stock – Pro'Gramme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="logo">Pro'Gramme</div>
+        <button class="burger-menu" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav-menu">
+          <ul>
+            <li><a href="/index.html" class="nav-link">Tableau de bord</a></li>
+            <li><a href="/html/recipes.html" class="nav-link">Recettes</a></li>
+            <li><a href="/html/calculator.html" class="nav-link">Calculateur</a></li>
+            <li><a href="/html/planning.html" class="nav-link">Planning</a></li>
+            <li><a href="/html/stock.html" class="nav-link active">Stock</a></li>
+          </ul>
+        </nav>
+      </header>
+  <main class="stock-container">
+    <h1 class="centered-title">Gestion du stock</h1>
+
+    <div class="stock-layout">
+        <section class="stock-form-section" aria-labelledby="form-titre">
+      <h2 id="form-titre">Ajouter un ingrédient</h2>
+      <form id="form-ajout" aria-describedby="info-form">
+        <label for="nom">Nom de l'ingrédient</label>
+        <input type="text" id="nom" name="nom" required>
+
+        <label for="quantite">Quantité</label>
+        <input type="number" id="quantite" name="quantite" min="0" step="any" required>
+
+        <label for="unite">Unité</label>
+        <select id="unite" name="unite">
+          <option value="g">g</option>
+          <option value="ml">ml</option>
+          <option value="unité">unité</option>
+        </select>
+
+        <button type="submit" class="cta">Ajouter au stock</button>
+      </form>
+    </section>
+
+    <section class="stock-results" aria-labelledby="table-titre">
+      <h2 id="table-titre">Stock actuel</h2>
+      <div id="message" role="alert" style="display:none;"></div>
+      <table aria-label="Tableau des ingrédients en stock">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Quantité</th>
+            <th>Unité</th>
+          </tr>
+        </thead>
+        <tbody id="table-stock">
+          <tr><td colspan="3">Aucun ingrédient pour le moment.</td></tr>
+        </tbody>
+      </table>
+    </section>
+    </div>
+  </main>
+
+  <noscript>
+    <div role="alert" style="background:#f4f4f4; color:#000; padding:1rem; border:1px solid #000; margin-top:1rem;">
+      ⚠️ JavaScript est désactivé. L’ajout et la mise à jour du stock nécessitent JavaScript pour fonctionner.
+    </div>
+  </noscript>
+
+  <script>
+    // Fichier JS minimal directement dans la page pour éviter les requêtes
+    const form = document.getElementById('form-ajout');
+    const tableBody = document.getElementById('table-stock');
+    const message = document.getElementById('message');
+
+    const stock = {};
+
+    function afficherStock() {
+      tableBody.innerHTML = '';
+      const entries = Object.values(stock);
+
+      if (entries.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="3">Aucun ingrédient pour le moment.</td></tr>';
+        return;
+      }
+
+      for (const ingr of entries) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${ingr.nom}</td>
+          <td>${ingr.quantite}</td>
+          <td>${ingr.unite}</td>
+        `;
+        tableBody.appendChild(row);
+      }
+    }
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const nom = document.getElementById('nom').value.trim();
+      const quantite = parseFloat(document.getElementById('quantite').value);
+      const unite = document.getElementById('unite').value;
+
+      if (!nom || isNaN(quantite) || quantite <= 0) {
+        message.style.display = 'block';
+        message.textContent = 'Veuillez entrer un nom et une quantité valide.';
+        return;
+      }
+
+      message.style.display = 'none';
+      const cle = `${nom.toLowerCase()}|${unite}`;
+      if (stock[cle]) {
+        stock[cle].quantite += quantite;
+      } else {
+        stock[cle] = { nom, quantite, unite };
+      }
+
+      form.reset();
+      afficherStock();
+    });
+
+    afficherStock();
+  </script>
+<script src="../js/nav.js"></script>
+</body>
+<footer>
+    <p>&copy; 2025 Pro'Gramme — Tous droits réservés.</p>
+</footer>
+
+</html>

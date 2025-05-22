@@ -1,11 +1,10 @@
-/* Style de base */
 :root {
-  --color-background: #F5F3EF;
-  --color-card: #FFFFFF;
-  --color-text: #2D1F14;
-  --color-accent: #814027;
-  --color-accent-hover: #7D430A;
-  --color-border: #E6DDC6;
+    --color-background: #F5F3EF;
+    --color-card: #FFFFFF;
+    --color-text: #2D1F14;
+    --color-accent: #814027;
+    --color-accent-hover: #7D430A;
+    --color-border: #E6DDC6;
 }
 
 * {
@@ -27,6 +26,58 @@ body {
   min-height: 100%;
 }
 
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #1E1E1E;
+    --color-card: #2D2D2D;
+    --color-text: #FFFFFF;
+    --color-accent: #FF9800;
+    --color-accent-hover: #FFA726;
+    --color-border: #3C3C3C;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .site-header,
+  footer {
+    background-color: var(--color-background);
+  }
+
+  section,
+  aside {
+    background-color: var(--color-card);
+  }
+}
+/* Mode contraste : Pour les personnes mayvoyantes ou ayant des déficiences au niveau de la vision */
+@media (forced-colors: active) {
+  :root {
+    --color-background: Window;
+    --color-card: Window;
+    --color-text: WindowText;
+    --color-accent: Highlight;
+    --color-accent-hover: HighlightText;
+    --color-border: ButtonFace;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .site-header,
+  footer {
+    background-color: var(--color-background);
+  }
+
+  section,
+  aside {
+    background-color: var(--color-card);
+  }
+}
 .site-header {
   background-color: var(--color-background);
   border-bottom: 1px solid var(--color-border);
@@ -110,6 +161,9 @@ aside {
   height: 280px;
   overflow-y: auto;
 }
+h1{
+  text-align: center;
+}
 
 h2 {
   font-size: 1.25rem;
@@ -128,35 +182,39 @@ li {
 }
 
 a.cta {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: var(--color-accent);
-  color: #fff;
-  text-decoration: none;
-  border-radius: 4px;
-  transition: background-color 0.3s;
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.8rem 2rem;
+    background-color: var(--color-accent);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
 }
 
 a.cta:hover {
-  background-color: var(--color-text);
+    background-color: var(--color-accent-hover);
 }
 
 .cta {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: var(--color-accent);
-  color: #fff;
-  text-decoration: none;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-  border:none;
-  cursor: pointer;
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.8rem 2rem;
+    background-color: var(--color-accent);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
 }
 
 .cta:hover {
-  background-color: var(--color-text);
+    background-color: var(--color-accent-hover);
 }
 
 footer {
@@ -248,22 +306,26 @@ footer {
   margin-bottom: 0.5rem;
 }
 
+.calculator-form-section input,
 .calculator-form-section select,
-.calculator-form-section input {
-  width: 100%;
-  padding: 0.8rem;
-  background-color: var(--color-card);
-  border: 2px solid var(--color-border);
-  border-radius: 0.5rem;
-  color: var(--color-text);
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
+.stock-form-section input,
+.stock-form-section select {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--color-card);
+    border: 2px solid var(--color-border);
+    border-radius: 0.5rem;
+    color: var(--color-text);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
 }
 
+.calculator-form-section input:focus,
 .calculator-form-section select:focus,
-.calculator-form-section input:focus {
-  outline: none;
-  border-color: var(--color-accent);
+.stock-form-section input:focus,
+.stock-form-section select:focus {
+    outline: none;
+    border-color: var(--color-accent);
 }
 
 .calculator-layout::before {
@@ -281,6 +343,149 @@ footer {
   padding: 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   border: 1px solid var(--color-border);
+}
+
+.stock-container {
+    padding: 2rem;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.stock-layout {
+    display: grid;
+    gap: 3rem;
+    align-items: start;
+    position: relative;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+}
+
+.stock-form-section {
+    background-color: transparent;
+    border:none;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.stock-form-section label {
+    color: var(--color-text);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.stock-form-section input,
+.stock-form-section select {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--color-card);
+    border: 2px solid var(--color-border);
+    border-radius: 0.5rem;
+    color: var(--color-text);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.stock-form-section input:focus,
+.stock-form-section select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+}
+
+.stock-layout::before {
+    content: '';
+    grid-column: 2;
+    background-color: var(--color-border);
+    width: 1px;
+    height: 100%;
+    align-self: stretch;
+}
+
+.stock-results {
+    background-color: var(--color-card);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--color-border);
+}
+
+.stock-results table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    background-color: var(--color-card);
+}
+
+.stock-results th,
+.stock-results td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.stock-results th {
+    font-weight: 600;
+    color: var(--color-accent);
+    background-color: var(--color-background);
+}
+
+.stock-results tr:nth-child(even) {
+    background-color: var(--color-background);
+}
+
+.stock-results tr:hover {
+    background-color: var(--color-border);
+    transition: background-color 0.3s ease;
+}
+
+.stock-results [role="alert"] {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #FEE2E2;
+    color: #991B1B;
+    border: 1px solid #FCA5A5;
+    border-radius: 0.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    .stock-results th {
+        background-color: var(--color-card);
+    }
+
+    .stock-results tr:nth-child(even) {
+        background-color: var(--color-background);
+    }
+
+    .stock-results [role="alert"] {
+        background-color: #7F1D1D;
+        color: #FEE2E2;
+        border-color: #991B1B;
+    }
+}
+
+@media (max-width: 768px) {
+    .stock-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .stock-layout::before {
+        display: none;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .stock-form-section input,
+    .stock-form-section select {
+        background-color: var(--color-background);
+        border-color: var(--color-border);
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -363,58 +568,7 @@ footer {
     height: 500px;
   }
 }
-/* Ajout d'un effet dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: #1E1E1E;
-    --color-card: #2D2D2D;
-    --color-text: #FFFFFF;
-    --color-accent: #FF9800;
-    --color-accent-hover: #FFA726;
-    --color-border: #3C3C3C;
-  }
 
-  body {
-    background-color: var(--color-background);
-    color: var(--color-text);
-  }
-
-  .site-header,
-  footer {
-    background-color: var(--color-background);
-  }
-
-  section,
-  aside {
-    background-color: var(--color-card);
-  }
-}
-/* Mode contraste : Pour les personnes mayvoyantes ou ayant des déficiences au niveau de la vision */
-@media (forced-colors: active) {
-  :root {
-    --color-background: Window;
-    --color-card: Window;
-    --color-text: WindowText;
-    --color-accent: Highlight;
-    --color-accent-hover: HighlightText;
-    --color-border: ButtonFace;
-  }
-
-  body {
-    background-color: var(--color-background);
-    color: var(--color-text);
-  }
-
-  .site-header,
-  footer {
-    background-color: var(--color-background);
-  }
-
-  section,
-  aside {
-    background-color: var(--color-card);
-  }
-}
 /* Adaptation en fonction de la taille d'écran des users */
 @media print {
   body {
@@ -477,16 +631,13 @@ footer {
 }
 /* Réduction des animations pour les utilisateurs qui préfèrent moins de mouvement */
 @media (prefers-reduced-motion: reduce) {
-  .nav-link {
-    transition: none;
-  }
-
+  .nav-link,
+  .cta,
   a.cta {
     transition: none;
   }
 }
 
-/* Ajout d'un menu burger pour les écrans plus petits */
 @media (max-width: 768px) {
     .site-header {
         justify-content: flex-start;
