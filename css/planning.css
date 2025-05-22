@@ -1,4 +1,3 @@
-/* Variables : utiliser celles du style principal */
 :root {
     --bg: var(--color-background);
     --fg: var(--color-text);
@@ -9,7 +8,6 @@
     --ghost: rgba(255, 255, 255, .4)
 }
 
-/* Réutiliser le mode sombre du style principal */
 @media (prefers-color-scheme:dark) {
     :root {
         --bg: var(--color-background);
@@ -290,11 +288,10 @@ main {
     }
 }
 
-/* Modifier les styles existants et ajouter les nouveaux */
 
 #main {
     width: 100%;
-    min-height: calc(100vh - 140px); /* Hauteur totale moins header et footer */
+    min-height: calc(100vh - 140px);
     padding: 1rem;
     margin: 0;
     max-width: none;

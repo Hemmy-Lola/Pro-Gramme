@@ -425,9 +425,8 @@ footer {
     background-color: var(--color-card);
 }
 
-/* Styles pour les colonnes du tableau */
 .stock-display table {
-    table-layout: fixed; /* Assure une largeur fixe des colonnes */
+    table-layout: fixed;
 }
 
 .stock-display th:nth-child(1),
@@ -456,7 +455,6 @@ footer {
     text-overflow: ellipsis;
 }
 
-/* Ajout d'un effet hover pour mieux visualiser les lignes */
 .stock-display tbody tr:hover {
     background-color: var(--color-background);
 }
@@ -492,7 +490,6 @@ footer {
     border-radius: 0.5rem;
 }
 
-/* Styles pour les tableaux */
 .stock-display {
     width: 100%;
     max-width: 1200px;
@@ -543,7 +540,6 @@ footer {
     }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .stock-display {
         padding: 0 1rem;
@@ -815,7 +811,6 @@ footer {
     }
 }
 
-/* Styles communs pour les conteneurs de formulaires */
 .calculator-container,
 .stock-container,
 #recipe-form {
@@ -828,7 +823,6 @@ footer {
     gap: 2rem;
 }
 
-/* Ajout des styles spécifiques pour le formulaire de recette */
 #recipe-form {
     background-color: transparent;
     border: none;
@@ -873,7 +867,6 @@ footer {
     border-color: var(--color-accent);
 }
 
-/* Style pour le conteneur d'ingrédients */
 #ingredients {
     display: flex;
     flex-direction: column;
@@ -887,7 +880,6 @@ footer {
     align-items: center;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     #recipe-form {
         padding: 1rem;
@@ -899,7 +891,6 @@ footer {
     }
 }
 
-/* Dark mode */
 @media (prefers-color-scheme: dark) {
     #recipe-form input,
     #recipe-form select {
