@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Planning – Pro'Gramme</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/planning.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="logo">Pro'Gramme</div>
+        <button class="burger-menu" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="/index.html" class="nav-link">Tableau de bord</a></li>
+                <li><a href="/html/my-recipes.html" class="nav-link">Recettes</a></li>
+                <li><a href="/html/calculator.html" class="nav-link">Calculateur</a></li>
+                <li><a href="/html/planning.html" class="nav-link active">Planning</a></li>
+                <li><a href="/html/stock.html" class="nav-link">Stock</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="planning-header">
+        <button id="prevWeek" class="cta-secondary" aria-label="Semaine précédente">◀︎</button>
+        <div class="title-container">
+            <h1 class="centered-title">Planning hebdomadaire</h1>
+            <span id="weekLabel" aria-live="polite"></span>
+        </div>
+        <button id="nextWeek" class="cta-secondary" aria-label="Semaine suivante">▶︎</button>
+    </div>
+    <main id="main">
+
+        <button id="addEvt" class="cta add-event" aria-label="Ajouter un événement">＋</button>
+
+        <section id="planner" aria-label="Grille de planification">
+            <div id="grid" role="grid" aria-readonly="true"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Pro'Gramme — Tous droits réservés.</p>
+    </footer>
+
+    <noscript>
+        <p class="nojs-warning">
+            JavaScript est désactivé : vous ne pouvez pas ajouter ni modifier d’événements.
+        </p>
+    </noscript>
+
+    <div id="mask" role="dialog" aria-modal="true" aria-labelledby="dlgTitle" hidden>
+        <form id="modal" novalidate>
+            <h2 id="dlgTitle">Événement</h2>
+
+            <label for="evtTitle">Titre</label>
+            <input id="evtTitle" type="text" required>
+
+            <label for="evtDesc">Description</label>
+            <textarea id="evtDesc" rows="3"></textarea>
+
+            <label for="startDate">Début</label>
+            <input id="startDate" type="datetime-local" required>
+
+            <label for="endDate">Fin</label>
+            <input id="endDate" type="datetime-local" required>
+
+            <label for="colorPicker">Couleur</label>
+            <input id="colorPicker" type="color" value="#0054B4">
+
+            <fieldset id="usersList">
+                <legend>Participants</legend>
+            </fieldset>
+
+            <div class="modal-user-add">
+                <input id="modalNewUser" type="text" placeholder="Nom nouveau participant">
+                <button id="addModalUser" type="button">Ajouter participant</button>
+            </div>
+
+            <div class="actions">
+                <button id="deleteEvt" type="button">Supprimer</button>
+                <div>
+                    <button id="cancel" type="button">Annuler</button>
+                    <button id="saveEvt" type="submit">Enregistrer</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="../js/nav.js"></script>
+    <script src="../js/planning.js" defer></script>
+</body>
+
+</html>
