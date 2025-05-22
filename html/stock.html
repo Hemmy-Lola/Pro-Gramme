@@ -135,39 +135,23 @@
   </noscript>
 <script type="module" src="../js/stock.js"></script> <!-- si tu veux importer directement -->
 <script type="module">
-  import { chargerStockJSON, getStock } from '../js/stock.js';
+  import { chargerStockJSON, getStock, initialiserFormulaire, afficherStockDansTable } from '../js/stock.js';
 
   const tableStock = document.getElementById('table-stock');
   const message = document.getElementById('message');
 
-  function afficherStockTable() {
-    const stockData = getStock();
-    tableStock.innerHTML = '';
-
-    const entries = Object.values(stockData);
-
-    if (entries.length === 0) {
-      tableStock.innerHTML = '<tr><td colspan="3">Aucun ingrédient pour le moment.</td></tr>';
-      return;
-    }
-
-    for (const ingr of entries) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${ingr.nom}</td>
-        <td>${ingr.quantite}</td>
-        <td>${ingr.unite}</td>
-      `;
-      tableStock.appendChild(tr);
-    }
-  }
-
   window.addEventListener('DOMContentLoaded', () => {
+    // Chargement initial des données
     chargerStockJSON()
       .then(() => {
-        afficherStockTable();
+        // Affichage des données dans le tableau
+        afficherStockDansTable(tableStock);
+        
+        // Initialisation du formulaire d'ajout
+        initialiserFormulaire();
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('Erreur:', error);
         message.style.display = 'block';
         message.textContent = 'Erreur lors du chargement du stock.';
       });
