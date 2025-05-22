@@ -1,32 +1,38 @@
 import {
   deduireIngredientsRecette,
   verifierDisponibiliteRecette,
-  ajouterAuStock,
-  afficherStock
+  afficherStock,
+  chargerStockJSON,
+  getStock
 } from './stock.js';
 
 let recettes = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-  fetch('../data/recipes.json')
-    .then(response => response.json())
-    .then(data => {
-      recettes = data;
-      const select = document.getElementById('recette-select');
+  chargerStockJSON().then(() => {
+    // Affiche le stock initial dans la liste
+    afficherStock();
 
-      data.forEach((recette, index) => {
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = recette.nom;
-        select.appendChild(option);
+    fetch('../data/recipes.json')
+      .then(response => response.json())
+      .then(data => {
+        recettes = data;
+        const select = document.getElementById('recette-select');
+
+        data.forEach((recette, index) => {
+          const option = document.createElement('option');
+          option.value = index;
+          option.textContent = recette.nom;
+          select.appendChild(option);
+        });
+
+        select.addEventListener('change', afficherIngredientsInitial);
       });
 
-      select.addEventListener('change', afficherIngredientsInitial);
+    document.getElementById('recette-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      adapterRecette();
     });
-
-  document.getElementById('recette-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    adapterRecette();
   });
 });
 
@@ -67,7 +73,7 @@ function adapterRecette() {
   const nbCible = base * multiple;
   const ratio = nbCible / base;
 
-  // Preparation de la recette adaptee
+  // Préparation de la recette adaptée
   const recetteAdaptee = recette.ingredients.map(ingr => {
     let qteCalc = ingr.quantite * ratio;
     if (/unites?|unite/i.test(ingr.unite)) {
@@ -78,16 +84,31 @@ function adapterRecette() {
     return { ...ingr, quantite: qteCalc };
   });
 
-  // Verification de disponibilite dans le stock
+  // Vérification de disponibilité dans le stock
   if (!verifierDisponibiliteRecette(recetteAdaptee)) {
     const alerte = document.createElement('p');
     alerte.textContent = '❌ Ingredients insuffisants en stock pour cette recette.';
     alerte.style.color = 'red';
+
+    // Détail des manques
+    recetteAdaptee.forEach(({ nom, quantite, unite }) => {
+      const key = `${nom.toLowerCase()}|${unite.toLowerCase()}`;
+      const stockItem = getStock()[key];
+      const disponible = stockItem ? stockItem.quantite : 0;
+
+      if (!stockItem || disponible < quantite) {
+        const li = document.createElement('li');
+        li.style.color = 'darkred';
+        li.textContent = `⛔ ${nom} : requis ${quantite} ${unite}, disponible ${disponible} ${unite}`;
+        liste.appendChild(li);
+      }
+    });
+
     liste.appendChild(alerte);
     return;
   }
 
-  // Alerte douce si des unites sont en fraction
+  // Alerte douce si des unités sont en fraction
   const problematiques = recette.ingredients.filter(ingr => {
     if (/unites?|unite/i.test(ingr.unite)) {
       const calc = ingr.quantite * ratio;
@@ -106,8 +127,8 @@ function adapterRecette() {
 
     const noms = problematiques.map(p => p.nom).join(', ');
 
-    msg.innerHTML = `ℹ️ Pour les ingredients comme <strong>${noms}</strong>, la quantite calculee tombe sur un nombre non entier. 
-    Comme on ne peut pas facilement utiliser une demi-unite (par exemple un demi-oeuf), nous avons arrondi a l’unite superieure pour garantir un bon resultat.`;
+    msg.innerHTML = `ℹ️ Pour les ingrédients comme <strong>${noms}</strong>, la quantité calculée tombe sur un nombre non entier. 
+    Comme on ne peut pas facilement utiliser une demi-unité (par exemple un demi-œuf), nous avons arrondi à l’unité supérieure pour garantir un bon résultat.`;
 
     liste.appendChild(msg);
   }
@@ -116,24 +137,31 @@ function adapterRecette() {
   const titre = document.createElement('p');
   if (nb !== nbCible) {
     titre.innerHTML = `
-      Vous avez demande une recette pour <strong>${nb}</strong> personnes.<br>
-      La recette d'origine est prevue pour <strong>${base}</strong> personnes.<br>
-      Pour eviter les fractions compliquees, nous vous proposons une version adaptee pour <strong>${nbCible}</strong> personnes,
-      ce qui correspond a <strong>${multiple}×</strong> la recette initiale.
+      Vous avez demandé une recette pour <strong>${nb}</strong> personnes.<br>
+      La recette d'origine est prévue pour <strong>${base}</strong> personnes.<br>
+      Pour éviter les fractions compliquées, nous vous proposons une version adaptée pour <strong>${nbCible}</strong> personnes,
+      ce qui correspond à <strong>${multiple}×</strong> la recette initiale.
     `;
   } else {
-    titre.textContent = `Ingredients adaptes pour ${nb} personnes :`;
+    titre.textContent = `Ingrédients adaptés pour ${nb} personnes :`;
   }
   liste.appendChild(titre);
 
-  // Affichage des ingredients adaptes
+  // Affichage des ingrédients adaptés
   recetteAdaptee.forEach(ingr => {
     const li = document.createElement('li');
     li.textContent = `${ingr.nom} : ${ingr.quantite} ${ingr.unite}`;
     liste.appendChild(li);
   });
 
-  // Mise a jour du stock
-  deduireIngredientsRecette(recetteAdaptee);
-  afficherStock();
+  // Mise à jour du stock
+  if (deduireIngredientsRecette(recetteAdaptee)) {
+    sauvegarderStock(); // si tu as cette fonction, sinon la supprimer ou adapter
+    afficherStock();
+  } else {
+    const erreur = document.createElement('p');
+    erreur.textContent = '❌ Impossible de déduire les ingrédients du stock.';
+    erreur.style.color = 'red';
+    liste.appendChild(erreur);
+  }
 }

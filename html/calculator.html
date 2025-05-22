@@ -29,7 +29,7 @@
         <h1 class="centered-title">Adaptation de recettes</h1>
 
         <div class="calculator-layout">
-            <form class="calculator-form-section">
+            <form class="calculator-form-section" id="recette-form">
                 <label for="recette-select">Recette :</label>
                 <select id="recette-select" name="recette" required aria-required="true"></select>
 
@@ -45,7 +45,11 @@
             </section>
         </div>
     </main>
-
+    <section id="stock-section" aria-labelledby="stock-titre" role="region">
+        <h2 id="stock-titre">Stock actuel</h2>
+        <ul id="stock-liste" role="list"></ul>
+      </section>
+  
     <footer>
         <p>&copy; 2025 Pro'Gramme — Tous droits réservés.</p>
     </footer>
@@ -54,7 +58,7 @@
         <p style="color:red;">JavaScript est désactivé dans votre navigateur. Cette fonctionnalité nécessite JavaScript pour fonctionner.</p>
     </noscript>
 
-    <script src="../js/calculator.js"></script>
-    <script src="../js/nav.js"></script>
+    <script src="../js/calculator.js" type="module"></script>
+    <script src="../js/nav.js" type="module"></script>
 </body>
 </html>
