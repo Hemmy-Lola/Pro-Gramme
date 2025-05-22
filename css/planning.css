@@ -307,3 +307,53 @@ main {
         display: none
     }
 }
+
+/* === Modal – création de participants === */
+.modal-user-add {
+    display: flex;
+    gap: .5rem;
+    margin-top: .5rem;
+}
+
+.modal-user-add input {
+    flex: 1;
+    padding: .4rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+}
+
+.modal-user-add button {
+    padding: .4rem .8rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Ajustement des participants dans le modal */
+#usersList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem .75rem;
+    padding: .4rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    margin-top: .5rem;
+}
+
+#usersList label {
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    background: var(--bg);
+    padding: .2rem .4rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#usersList input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+}

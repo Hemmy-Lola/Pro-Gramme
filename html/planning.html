@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Planning accessible (Pointer Events)</title>
+    <title>Planning hebdomadaire</title>
     <link rel="stylesheet" href="../css/planning.css">
 </head>
 
@@ -21,15 +21,6 @@
     </header>
 
     <main id="main" tabindex="-1">
-        <section id="userManager" aria-label="Gestion des utilisateurs">
-            <h2>Utilisateurs</h2>
-            <div class="um-form">
-                <input id="newUserName" type="text" placeholder="Nom d’utilisateur">
-                <button id="addUser">Ajouter</button>
-            </div>
-            <ul id="userList" class="um-list"></ul>
-        </section>
-
         <section id="planner" aria-label="Grille de planification">
             <div id="grid" role="grid" aria-readonly="true"></div>
         </section>
@@ -37,11 +28,10 @@
 
     <noscript>
         <p class="nojs-warning">
-            JavaScript est désactivé : vous ne pouvez pas ajouter ou modifier d’événements.
+            JavaScript est désactivé : vous ne pouvez pas ajouter ni modifier d’événements.
         </p>
     </noscript>
 
-    <!-- modal création/édition -->
     <div id="mask" role="dialog" aria-modal="true" aria-labelledby="dlgTitle" hidden>
         <form id="modal" novalidate>
             <h2 id="dlgTitle">Événement</h2>
@@ -64,6 +54,11 @@
             <fieldset id="usersList">
                 <legend>Participants</legend>
             </fieldset>
+
+            <div class="modal-user-add">
+                <input id="modalNewUser" type="text" placeholder="Nom nouveau participant">
+                <button id="addModalUser" type="button">Ajouter participant</button>
+            </div>
 
             <div class="actions">
                 <button id="deleteEvt" type="button">Supprimer</button>

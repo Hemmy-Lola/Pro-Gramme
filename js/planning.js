@@ -1,12 +1,10 @@
 (function () {
     'use strict';
 
-    /* ---------- Constantes ---------- */
-    const ROW_H = 24,    // hauteur d’une tranche de 15 min
-        HDR_H = 28,    // hauteur header + entêtes
-        DRAG_T = 5;     // seuil px avant drag
+    const ROW_H = 24,
+        HDR_H = 28,
+        DRAG_T = 5;
 
-    /* ---------- DOM ---------- */
     const grid = document.getElementById('grid'),
         weekLabel = document.getElementById('weekLabel'),
         prevBtn = document.getElementById('prevWeek'),
@@ -20,108 +18,76 @@
         endIn = document.getElementById('endDate'),
         colorIn = document.getElementById('colorPicker'),
         usersField = document.getElementById('usersList'),
+        addModalUser = document.getElementById('addModalUser'),
+        modalNewUser = document.getElementById('modalNewUser'),
         saveBtn = document.getElementById('saveEvt'),
         cancelBtn = document.getElementById('cancel'),
-        delBtn = document.getElementById('deleteEvt'),
-        newUserIn = document.getElementById('newUserName'),
-        addUserBtn = document.getElementById('addUser'),
-        userListUl = document.getElementById('userList');
+        delBtn = document.getElementById('deleteEvt');
 
-    /* ---------- Données ---------- */
     let weekStart = getMonday(new Date()),
         users = JSON.parse(localStorage.getItem('plannerUsers') || '[]'),
         events = JSON.parse(localStorage.getItem('plannerEvents') || '[]'),
         editing = null;
 
-    /* ---------- Initialisation ---------- */
-    initUsers();
-    renderWeek();
-
-    /* navigation semaine */
     prevBtn.addEventListener('click', () => { weekStart = addDays(weekStart, -7); renderWeek(); });
     nextBtn.addEventListener('click', () => { weekStart = addDays(weekStart, 7); renderWeek(); });
-    addBtn.addEventListener('click', () => openModalNow());
+    addBtn.addEventListener('click', openModalNow);
 
-    /* modal */
     cancelBtn.addEventListener('click', () => mask.hidden = true);
     mask.addEventListener('click', e => { if (e.target === mask) mask.hidden = true; });
-
     saveBtn.addEventListener('click', onSave);
     delBtn.addEventListener('click', onDelete);
 
-    /* gestion utilisateurs */
-    addUserBtn.addEventListener('click', onAddUser);
+    addModalUser.addEventListener('click', onAddModalUser);
 
-    // ferme la modale quand on appuie sur Échap
     document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && !mask.hidden) {
-            mask.hidden = true;
-        }
+        if (e.key === 'Escape' && !mask.hidden) mask.hidden = true;
     });
 
-    /* ---------- Fonctions Utilisateurs ---------- */
-    function initUsers() {
-        renderUserManager();
-        renderUserField();
-    }
-    function persistUsers() {
-        localStorage.setItem('plannerUsers', JSON.stringify(users));
-    }
-    function onAddUser() {
-        const name = newUserIn.value.trim();
-        if (!name) return;
-        users.push({ id: uuid(), name });
-        newUserIn.value = '';
-        persistUsers();
-        renderUserManager();
-        renderUserField();
-    }
-    function onDelUser(id) {
-        users = users.filter(u => u.id !== id);
-        persistUsers();
-        events.forEach(ev => { ev.users = ev.users.filter(u => u !== id); });
-        localStorage.setItem('plannerEvents', JSON.stringify(events));
-        renderUserManager();
-        renderUserField();
-        renderWeek();
-    }
-    function renderUserManager() {
-        userListUl.innerHTML = '';
-        users.forEach(u => {
-            const li = document.createElement('li');
-            li.textContent = u.name + ' ';
-            const btn = document.createElement('button');
-            btn.textContent = '×';
-            btn.addEventListener('click', () => onDelUser(u.id));
-            li.append(btn);
-            userListUl.append(li);
+    renderWeek();
+
+    function renderParticipants() {
+        usersField.innerHTML = '';
+        const labAll = document.createElement('label');
+        const chkAll = document.createElement('input');
+        chkAll.type = 'checkbox';
+        chkAll.addEventListener('change', () => {
+            usersField.querySelectorAll('input[data-user]').forEach(c => c.checked = chkAll.checked);
         });
-    }
-    function renderUserField() {
-        usersField.innerHTML = '<legend>Participants</legend>';
+        labAll.append(chkAll, document.createTextNode('Tout le monde'));
+        usersField.append(labAll);
         users.forEach(u => {
             const lab = document.createElement('label');
             const chk = document.createElement('input');
-            chk.type = 'checkbox'; chk.value = u.id; chk.dataset.user = '';
-            lab.append(chk, u.name);
+            chk.type = 'checkbox';
+            chk.dataset.user = '';
+            chk.value = u.id || u;
+            lab.append(chk, document.createTextNode(u.name || u));
             usersField.append(lab);
         });
     }
 
-    /* ---------- Semaine & Grille ---------- */
+    function onAddModalUser() {
+        const name = modalNewUser.value.trim();
+        if (!name) return;
+        users.push({ id: uuid(), name });
+        localStorage.setItem('plannerUsers', JSON.stringify(users));
+        modalNewUser.value = '';
+        renderParticipants();
+    }
+
     function renderWeek() {
         grid.innerHTML = '';
         weekLabel.textContent = fmtRange(weekStart);
 
-        // entêtes jours
         grid.append(document.createElement('div'));
         ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].forEach(d => {
             const h = document.createElement('div');
-            h.className = 'dayHeader'; h.textContent = d;
+            h.className = 'dayHeader';
+            h.textContent = d;
             grid.append(h);
         });
 
-        // lignes horaires + colonnes (non-focusables)
         for (let r = 0; r < 96; r++) {
             const hc = document.createElement('div');
             hc.className = 'hourCell';
@@ -131,13 +97,13 @@
             for (let c = 0; c < 7; c++) {
                 const cell = document.createElement('div');
                 cell.className = 'dayColumn';
-                cell.dataset.c = c; cell.dataset.r = r;
+                cell.dataset.c = c;
+                cell.dataset.r = r;
                 cell.addEventListener('pointerdown', cellStart);
                 grid.append(cell);
             }
         }
 
-        // événements
         const list = [];
         events.filter(ev => sameWeek(new Date(ev.start))).forEach(ev => {
             list.push(drawEvent(ev));
@@ -145,7 +111,6 @@
         applyOverlap(list);
     }
 
-    /* --- drag sur case pour créer --- */
     let sel = null;
     function cellStart(e) {
         if (e.button !== 0) return;
@@ -175,13 +140,13 @@
         document.addEventListener('pointerup', up);
     }
 
-    /* ---------- Modal Création/Édition ---------- */
     function openModalNow() {
         const now = new Date();
         now.setMinutes(Math.floor(now.getMinutes() / 15) * 15, 0, 0);
         const later = new Date(now.getTime() + 3600000);
         openModalAt(now, later);
     }
+
     function openModalAt(base, startDate, endDate, sr, er) {
         const s = startDate || new Date(base),
             e = endDate || new Date(base);
@@ -189,23 +154,26 @@
             s.setMinutes(sr * 15);
             e.setMinutes(er * 15);
         }
-        titleIn.value = ''; descIn.value = '';
+        titleIn.value = '';
+        descIn.value = '';
         startIn.value = toISO(s);
         endIn.value = toISO(e);
         colorIn.value = randColor();
-        usersField.querySelectorAll('[data-user]').forEach(c => c.checked = false);
+        renderParticipants();
         editing = null;
         delBtn.hidden = true;
         mask.hidden = false;
         titleIn.focus();
     }
+
     function openEdit(ev) {
         titleIn.value = ev.title;
         descIn.value = ev.desc;
         startIn.value = toISO(new Date(ev.start));
         endIn.value = toISO(new Date(ev.end));
         colorIn.value = ev.color;
-        usersField.querySelectorAll('[data-user]').forEach(c => {
+        renderParticipants();
+        usersField.querySelectorAll('input[data-user]').forEach(c => {
             c.checked = ev.users.includes(c.value);
         });
         editing = ev;
@@ -214,7 +182,6 @@
         titleIn.focus();
     }
 
-    /* ---------- Enregistrer / Supprimer ---------- */
     function onSave(evt) {
         evt.preventDefault();
         const o = editing || { id: uuid() };
@@ -223,13 +190,14 @@
         o.start = new Date(startIn.value).toISOString();
         o.end = new Date(endIn.value).toISOString();
         o.color = colorIn.value;
-        o.users = [...usersField.querySelectorAll('[data-user]')]
+        o.users = [...usersField.querySelectorAll('input[data-user]')]
             .filter(c => c.checked).map(c => c.value);
         if (!editing) events.push(o);
         persistEvents();
         mask.hidden = true;
         renderWeek();
     }
+
     function onDelete() {
         if (!editing) return;
         events = events.filter(e => e.id !== editing.id);
@@ -238,7 +206,6 @@
         renderWeek();
     }
 
-    /* ---------- Dessiner un événement ---------- */
     function drawEvent(ev) {
         const d0 = new Date(ev.start),
             c = (d0.getDay() + 6) % 7,
@@ -246,11 +213,10 @@
             span = (new Date(ev.end) - d0) / 900000;
         const div = document.createElement('div');
         div.className = 'event';
-        div.tabIndex = 0;              // seuls les events sont focusables
+        div.tabIndex = 0;
         div.style.background = ev.color;
         div.textContent = ev.title;
 
-        // handles de resize
         ['Top', 'Bottom'].forEach(pos => {
             const h = document.createElement('div');
             h.className = 'resizeHandle resize' + pos;
@@ -261,21 +227,19 @@
         place(div, c, sr, span, ev.color);
         grid.append(div);
 
-        // interaction clavier & pointer
         attachInteraction(div, ev, span);
 
         return { div, ev, c, sr, er: sr + span };
     }
 
-    /* ---------- Interaction événement ---------- */
     function attachInteraction(div, ev, span) {
-        // clavier : Enter/Espace pour éditer, flèches pour déplacer, Delete pour supprimer
         div.addEventListener('keydown', e => {
-            const dur = span;
             let moved = false;
             switch (e.key) {
-                case 'Enter': case ' ':
-                    e.preventDefault(); openEdit(ev);
+                case 'Enter':
+                case ' ':
+                    e.preventDefault();
+                    openEdit(ev);
                     return;
                 case 'ArrowUp':
                     moved = true; updateBy(ev, 0, -1); break;
@@ -285,29 +249,33 @@
                     moved = true; updateBy(ev, -1, 0); break;
                 case 'ArrowRight':
                     moved = true; updateBy(ev, 1, 0); break;
-                case 'Delete': case 'Backspace':
-                    onDelete(); return;
+                case 'Delete':
+                case 'Backspace':
+                    onDelete();
+                    return;
             }
             if (moved) {
                 persistEvents();
                 renderWeek();
-                div.focus();  // garder le focus sur l’event
+                div.focus();
             }
         });
 
-        // pointer : click court vs glisser
-        let sx, sy, drag = false;
+        let sx, sy, dragging = false;
         div.addEventListener('pointerdown', e => {
             if (e.target !== div) return;
-            sx = e.clientX; sy = e.clientY; drag = false;
+            sx = e.clientX; sy = e.clientY; dragging = false;
             function mv(m) {
-                if (!drag && (Math.abs(m.clientX - sx) > DRAG_T || Math.abs(m.clientY - sy) > DRAG_T)) {
-                    drag = true;
+                if (!dragging && (Math.abs(m.clientX - sx) > DRAG_T || Math.abs(m.clientY - sy) > DRAG_T)) {
+                    dragging = true;
                     startMove(e, ev, div, span);
                     cleanup();
                 }
             }
-            function up() { cleanup(); if (!drag) openEdit(ev); }
+            function up() {
+                cleanup();
+                if (!dragging) openEdit(ev);
+            }
             function cleanup() {
                 document.removeEventListener('pointermove', mv);
                 document.removeEventListener('pointerup', up);
@@ -317,9 +285,9 @@
         });
     }
 
-    /* ---------- Déplacement ---------- */
     function startMove(e, ev, div, span) {
-        e.preventDefault(); div.classList.add('dragging');
+        e.preventDefault();
+        div.classList.add('dragging');
         const rect = grid.getBoundingClientRect(),
             offX = e.clientX - div.getBoundingClientRect().left,
             offY = e.clientY - div.getBoundingClientRect().top;
@@ -340,9 +308,9 @@
             let c = Math.min(6, Math.floor((x - 80) / dayW));
             let y = u.clientY - rect.top - offY - HDR_H;
             let r = Math.max(0, Math.min(96 - span, Math.round(y / ROW_H)));
-            // mise à jour des dates
             const base = addDays(weekStart, c),
-                ns = new Date(base), ne = new Date(base);
+                ns = new Date(base),
+                ne = new Date(base);
             ns.setMinutes(r * 15);
             ne.setTime(ns.getTime() + span * 900000);
             ev.start = ns.toISOString();
@@ -354,11 +322,10 @@
         document.addEventListener('pointerup', up);
     }
 
-    /* ---------- Redimensionnement ---------- */
     function startResize(e, ev, div, side) {
         e.stopPropagation(); e.preventDefault();
         const rect = grid.getBoundingClientRect(),
-            c = (new Date(ev.start).getDay() + 6) % 7;
+            baseCol = (new Date(ev.start).getDay() + 6) % 7;
         let sr = (new Date(ev.start).getHours() * 60 + new Date(ev.start).getMinutes()) / 15,
             er = (new Date(ev.end).getHours() * 60 + new Date(ev.end).getMinutes()) / 15;
         function mv(m) {
@@ -366,13 +333,14 @@
             r = Math.max(0, Math.min(95, r));
             if (side === 'top') { sr = Math.min(r, er - 1); }
             else { er = Math.max(r, sr + 1); }
-            place(div, c, sr, er - sr, ev.color);
+            place(div, baseCol, sr, er - sr, ev.color);
         }
         function up() {
             document.removeEventListener('pointermove', mv);
             document.removeEventListener('pointerup', up);
-            const base = addDays(weekStart, c),
-                ns = new Date(base), ne = new Date(base);
+            const base = addDays(weekStart, baseCol),
+                ns = new Date(base),
+                ne = new Date(base);
             ns.setMinutes(sr * 15);
             ne.setMinutes(er * 15);
             ev.start = ns.toISOString();
@@ -384,13 +352,12 @@
         document.addEventListener('pointerup', up);
     }
 
-    /* ---------- Chevauchements ---------- */
     function applyOverlap(arr) {
         arr.forEach(a => {
             arr.forEach(b => {
                 if (a === b || a.c !== b.c) return;
-                const s = Math.max(a.sr, b.sr);
-                const e = Math.min(a.er, b.er);
+                const s = Math.max(a.sr, b.sr),
+                    e = Math.min(a.er, b.er);
                 if (s < e) {
                     const seg = document.createElement('div');
                     seg.className = 'overlapSegment';
@@ -402,8 +369,6 @@
         });
     }
 
-
-    /* ---------- Helpers ---------- */
     function place(div, c, r, span, color) {
         const rect = grid.getBoundingClientRect(),
             w = (rect.width - 80) / 7;
