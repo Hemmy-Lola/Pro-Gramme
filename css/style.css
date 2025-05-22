@@ -142,7 +142,6 @@ nav ul {
   transition: all 0.3s linear;
 }
 
-
 main {
   flex: 1;
   padding: 2rem;
@@ -272,7 +271,6 @@ footer {
 .recipe ul li {
   padding: 0.25rem 0;
 }
-
 
 .calculator-container {
   padding: 2rem;
@@ -715,4 +713,123 @@ footer {
         background-color: var(--color-background);
         border-color: var(--color-border);
     }
+}
+
+/* Styles communs pour les conteneurs de formulaires */
+.calculator-container,
+.stock-container,
+#recipe-form {
+    padding: 2rem;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Ajout des styles spécifiques pour le formulaire de recette */
+#recipe-form {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+#recipe-form h1 {
+    text-align: center;
+    color: var(--color-text);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+#recipe-form h3 {
+    color: var(--color-accent);
+    margin: 1.5rem 0 1rem;
+}
+
+#recipe-form label {
+    color: var(--color-text);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.8rem;
+}
+
+#recipe-form input,
+#recipe-form select {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--color-card);
+    border: 2px solid var(--color-border);
+    border-radius: 0.5rem;
+    color: var(--color-text);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+#recipe-form input:focus,
+#recipe-form select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+}
+
+/* Style pour le conteneur d'ingrédients */
+#ingredients {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ingredient {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #recipe-form {
+        padding: 1rem;
+    }
+
+    .ingredient {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    #recipe-form input,
+    #recipe-form select {
+        background-color: var(--color-background);
+        border-color: var(--color-border);
+    }
+}
+
+body.add-recipe-page main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+body.add-recipe-page #recipe-form {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.hidden-section {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  body.add-recipe-page main {
+    padding: 1rem;
+  }
 }
