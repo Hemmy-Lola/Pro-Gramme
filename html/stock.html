@@ -5,7 +5,6 @@
   <title>Gestion du Stock</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-
     :root {
       color-scheme: light dark;
     }
@@ -68,6 +67,17 @@
       border: 1px solid #900;
     }
 
+    #stock-liste {
+      list-style-type: disc;
+      margin-top: 2rem;
+      padding-left: 1rem;
+      border-top: 1px solid #ccc;
+    }
+
+    #stock-liste li {
+      margin: 0.4rem 0;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       * {
         transition: none !important;
@@ -123,60 +133,46 @@
       ⚠️ JavaScript est désactivé. L’ajout et la mise à jour du stock nécessitent JavaScript pour fonctionner.
     </div>
   </noscript>
+<script type="module" src="../js/stock.js"></script> <!-- si tu veux importer directement -->
+<script type="module">
+  import { chargerStockJSON, getStock } from '../js/stock.js';
 
-  <script>
-    // Fichier JS minimal directement dans la page pour éviter les requêtes
-    const form = document.getElementById('form-ajout');
-    const tableBody = document.getElementById('table-stock');
-    const message = document.getElementById('message');
+  const tableStock = document.getElementById('table-stock');
+  const message = document.getElementById('message');
 
-    const stock = {};
+  function afficherStockTable() {
+    const stockData = getStock();
+    tableStock.innerHTML = '';
 
-    function afficherStock() {
-      tableBody.innerHTML = '';
-      const entries = Object.values(stock);
+    const entries = Object.values(stockData);
 
-      if (entries.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="3">Aucun ingrédient pour le moment.</td></tr>';
-        return;
-      }
-
-      for (const ingr of entries) {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${ingr.nom}</td>
-          <td>${ingr.quantite}</td>
-          <td>${ingr.unite}</td>
-        `;
-        tableBody.appendChild(row);
-      }
+    if (entries.length === 0) {
+      tableStock.innerHTML = '<tr><td colspan="3">Aucun ingrédient pour le moment.</td></tr>';
+      return;
     }
 
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const nom = document.getElementById('nom').value.trim();
-      const quantite = parseFloat(document.getElementById('quantite').value);
-      const unite = document.getElementById('unite').value;
+    for (const ingr of entries) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${ingr.nom}</td>
+        <td>${ingr.quantite}</td>
+        <td>${ingr.unite}</td>
+      `;
+      tableStock.appendChild(tr);
+    }
+  }
 
-      if (!nom || isNaN(quantite) || quantite <= 0) {
+  window.addEventListener('DOMContentLoaded', () => {
+    chargerStockJSON()
+      .then(() => {
+        afficherStockTable();
+      })
+      .catch(() => {
         message.style.display = 'block';
-        message.textContent = 'Veuillez entrer un nom et une quantité valide.';
-        return;
-      }
-
-      message.style.display = 'none';
-      const cle = `${nom.toLowerCase()}|${unite}`;
-      if (stock[cle]) {
-        stock[cle].quantite += quantite;
-      } else {
-        stock[cle] = { nom, quantite, unite };
-      }
-
-      form.reset();
-      afficherStock();
-    });
-
-    afficherStock();
-  </script>
+        message.textContent = 'Erreur lors du chargement du stock.';
+      });
+  });
+</script>
+   
 </body>
 </html>
