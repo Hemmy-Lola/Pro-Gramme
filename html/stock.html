@@ -74,65 +74,33 @@
     </div>
   </noscript>
 
-  <script>
-    const form = document.getElementById('form-ajout');
-    const tableBody = document.getElementById('table-stock');
+  <!-- JavaScript (module utilisé dans ton premier code) -->
+  <script type="module" src="../js/stock.js"></script>
+  <script type="module">
+    import { chargerStockJSON, getStock, initialiserFormulaire, afficherStockDansTable } from '../js/stock.js';
+
+    const tableStock = document.getElementById('table-stock');
     const message = document.getElementById('message');
 
-    const stock = {};
-
-    function afficherStock() {
-      tableBody.innerHTML = '';
-      const entries = Object.values(stock);
-
-      if (entries.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="3">Aucun ingrédient pour le moment.</td></tr>';
-        return;
-      }
-
-      for (const ingr of entries) {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${ingr.nom}</td>
-          <td>${ingr.quantite}</td>
-          <td>${ingr.unite}</td>
-        `;
-        tableBody.appendChild(row);
-      }
-    }
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const nom = document.getElementById('nom').value.trim();
-      const quantite = parseFloat(document.getElementById('quantite').value);
-      const unite = document.getElementById('unite').value;
-
-      if (!nom || isNaN(quantite) || quantite <= 0) {
-        message.style.display = 'block';
-        message.textContent = 'Veuillez entrer un nom et une quantité valide.';
-        return;
-      }
-
-      message.style.display = 'none';
-      const cle = `${nom.toLowerCase()}|${unite}`;
-      if (stock[cle]) {
-        stock[cle].quantite += quantite;
-      } else {
-        stock[cle] = { nom, quantite, unite };
-      }
-
-      form.reset();
-      afficherStock();
+    window.addEventListener('DOMContentLoaded', () => {
+      chargerStockJSON()
+        .then(() => {
+          afficherStockDansTable(tableStock);
+          initialiserFormulaire();
+        })
+        .catch((error) => {
+          console.error('Erreur:', error);
+          message.style.display = 'block';
+          message.textContent = 'Erreur lors du chargement du stock.';
+        });
     });
-
-    afficherStock();
   </script>
 
+  <!-- Menu burger -->
   <script src="../js/nav.js"></script>
+
+  <footer>
+    <p>&copy; 2025 Pro'Gramme — Tous droits réservés.</p>
+  </footer>
 </body>
-
-<footer>
-  <p>&copy; 2025 Pro'Gramme — Tous droits réservés.</p>
-</footer>
-
 </html>
