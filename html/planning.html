@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Planning hebdomadaire</title>
+    <link rel="stylesheet" href="../css/planning.css">
+</head>
+
+<body>
+    <div id="planner">
+        <div id="weekBar">
+            <button id="prevWeek">◀︎</button>
+            <h2 id="weekLabel"></h2>
+            <button id="nextWeek">▶︎</button>
+        </div>
+        <div id="grid"></div>
+    </div>
+
+    <div style="margin-top:1rem"><a href="users.html">Gérer les utilisateurs</a></div>
+
+    <div id="mask">
+        <div id="modal">
+            <input id="evtTitle" type="text" placeholder="Titre">
+            <textarea id="evtDesc" rows="3" placeholder="Description"
+                style="width:100%;border:1px solid #d0d0d4;border-radius:6px;padding:.4rem .5rem;font-size:.8rem"></textarea>
+            <input id="startDate" type="datetime-local">
+            <input id="endDate" type="datetime-local">
+            <input id="colorPicker" type="color" value="#0071e3">
+            <div id="usersList"></div>
+            <div class="actions">
+                <button id="deleteEvt">Supprimer</button>
+                <div>
+                    <button id="cancel">Annuler</button>
+                    <button id="saveEvt">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/planning.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Utilisateurs</title>
+    <link rel="stylesheet" href="../css/planning.css">
+</head>
+
+<body>
+    <h2 style="margin-bottom:1rem">Gestion des utilisateurs</h2>
+    <div style="display:flex;gap:.5rem;margin-bottom:1rem">
+        <input id="newUserName" type="text" placeholder="Nom"
+            style="padding:.4rem .6rem;border:1px solid #d0d0d4;border-radius:6px">
+        <button id="addUser"
+            style="background:#0071e3;border:none;border-radius:6px;color:#fff;padding:.4rem 1rem;font-weight:600;cursor:pointer">Ajouter</button>
+    </div>
+    <ul id="userList" style="list-style:none;padding:0;max-width:300px"></ul>
+    <a href="planning.html" style="display:block;margin-top:2rem">⬅︎ Retour au planning</a>
+    <script src="../js/users.js"></script>
+</body>
+
+</html>
