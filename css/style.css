@@ -196,11 +196,13 @@ a.cta {
 }
 
 a.cta:hover {
-    background-color: var(--color-accent-hover);
+    background-color: var(--color-text);
 }
 
 .cta {
     display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
     margin-top: 1rem;
     padding: 0.8rem 2rem;
     background-color: var(--color-accent);
@@ -211,10 +213,13 @@ a.cta:hover {
     cursor: pointer;
     font-weight: 500;
     transition: background-color 0.3s;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 .cta:hover {
-    background-color: var(--color-accent-hover);
+    background-color: var(--color-text);
 }
 
 footer {
