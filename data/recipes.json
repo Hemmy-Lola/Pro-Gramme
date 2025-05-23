@@ -5,6 +5,7 @@
     "ingredients": [
       { "nom": "farine", "quantite": 200, "unite": "g" },
       { "nom": "sucre", "quantite": 100, "unite": "g" },
+      { "nom": "chocolat", "quantite": 150, "unite": "g" },
       { "nom": "oeuf", "quantite": 3, "unite": "unite" }
     ]
   },
@@ -18,12 +19,12 @@
     ]
   },
   {
-    "nom": "Soupe de légumes",
+    "nom": "Fraisiers",
     "personnes": 6,
     "ingredients": [
-      { "nom": "carottes", "quantite": 500, "unite": "g" },
-      { "nom": "pommes de terre", "quantite": 400, "unite": "g" },
-      { "nom": "poireaux", "quantite": 2, "unite": "unite" }
+      { "nom": "fraise", "quantite": 200, "unite": "g" },
+      { "nom": "sucre", "quantite": 150, "unite": "g" },
+      { "nom": "mascarpone", "quantite": 250, "unite": "g" }
     ]
   }
 ]
