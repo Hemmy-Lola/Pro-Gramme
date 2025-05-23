@@ -1,3 +1,4 @@
+// Début Sira KALLOGA
 let stockData = {};
 
 export function getStock() {
@@ -167,3 +168,4 @@ export function deduireIngredientsRecette(ingredients) {
 
   return true;
 }
+// Fin Sira KALLOGA

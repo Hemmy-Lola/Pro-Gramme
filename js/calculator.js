@@ -1,3 +1,4 @@
+// Début Léo MASSON
 import {
   deduireIngredientsRecette,
   verifierDisponibiliteRecette,
@@ -157,3 +158,4 @@ function adapterRecette() {
     liste.appendChild(erreur);
   }
 }
+// Fin Léo MASSON

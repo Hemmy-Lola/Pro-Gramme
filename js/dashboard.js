@@ -1,3 +1,4 @@
+// Début Hemmy-Lola MATHYS
 import { getStock } from './stock.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -87,3 +88,4 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Erreur lors du chargement des données:', error);
     }
 });
+// Fin Hemmy-Lola MATHYS

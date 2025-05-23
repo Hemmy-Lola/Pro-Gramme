@@ -1,3 +1,4 @@
+// Début Hemmy-Lola MATHYS
 document.addEventListener('DOMContentLoaded', () => {
     const burgerMenu = document.querySelector('.burger-menu');
     const navMenu = document.querySelector('.nav-menu');
@@ -14,3 +15,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+// Fin Hemmy-Lola MATHYS

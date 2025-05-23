@@ -1,3 +1,4 @@
+// Début Abraham LAWSON
 function addIngredient() {
   const container = document.getElementById("ingredients");
   const div = document.createElement("div");
@@ -42,3 +43,4 @@ document.getElementById("recipe-form").addEventListener("submit", function (e) {
 
   window.location.href = "my-recipes.html";
 });
+// Fin Abraham LAWSON

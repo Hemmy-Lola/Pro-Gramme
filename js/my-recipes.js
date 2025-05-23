@@ -1,3 +1,4 @@
+// Début Abraham LAWSON
 const container = document.getElementById("container-recipes");
 const recipes = JSON.parse(localStorage.getItem("recipes")) || [];
 
@@ -19,3 +20,4 @@ if (recipes.length === 0) {
     container.appendChild(div);
   });
 }
+// Fin Abraham LAWSON
