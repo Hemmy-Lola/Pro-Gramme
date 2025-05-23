@@ -1,84 +1,104 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Stock – Pro'Gramme</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/style.css">
+  <meta charset="UTF-8">
+  <title>Stock – Pro'Gramme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
-    <header class="site-header">
-        <div class="logo">Pro'Gramme</div>
-        <button class="burger-menu" aria-label="Menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <nav class="nav-menu">
-            <ul>
-                <li><a href="../index.html" class="nav-link">Tableau de bord</a></li>
-                <li><a href="./my-recipes.html" class="nav-link">Recettes</a></li>
-                <li><a href="./calculator.html" class="nav-link">Calculateur</a></li>
-                <li><a href="./planning.html" class="nav-link">Planning</a></li>
-                <li><a href="./stock.html" class="nav-link active">Stock</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header class="site-header">
+    <div class="logo">Pro'Gramme</div>
+    <button class="burger-menu" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="nav-menu">
+      <ul>
+        <li><a href="../index.html" class="nav-link">Tableau de bord</a></li>
+        <li><a href="./my-recipes.html" class="nav-link">Recettes</a></li>
+        <li><a href="./calculator.html" class="nav-link">Calculateur</a></li>
+        <li><a href="./planning.html" class="nav-link">Planning</a></li>
+        <li><a href="./stock.html" class="nav-link active">Stock</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <main class="stock-container">
-        <h1 class="centered-title">Gestion du stock</h1>
+  <main class="stock-container">
+    <h1 class="centered-title">Gestion du stock</h1>
 
-        <div class="stock-layout">
-            <section class="stock-form-section" aria-labelledby="form-titre">
-                <h2 id="form-titre">Ajouter un ingrédient</h2>
-                <form id="form-ajout" aria-describedby="info-form">
-                    <label for="nom">Nom de l'ingrédient</label>
-                    <input type="text" id="nom" name="nom" required>
+    <div class="stock-layout">
+      <section class="stock-form-section" aria-labelledby="form-titre">
+        <h2 id="form-titre">Ajouter un ingrédient</h2>
+        <form id="form-ajout" aria-describedby="info-form">
+          <label for="nom">Nom de l'ingrédient</label>
+          <input type="text" id="nom" name="nom" required>
 
-                    <label for="quantite">Quantité</label>
-                    <input type="number" id="quantite" name="quantite" min="0" step="any" required>
+          <label for="quantite">Quantité</label>
+          <input type="number" id="quantite" name="quantite" min="0" step="any" required>
 
-                    <label for="unite">Unité</label>
-                    <select id="unite" name="unite">
-                        <option value="g">g</option>
-                        <option value="ml">ml</option>
-                        <option value="unité">unité</option>
-                    </select>
+          <label for="unite">Unité</label>
+          <select id="unite" name="unite">
+            <option value="g">g</option>
+            <option value="ml">ml</option>
+            <option value="unité">unité</option>
+          </select>
 
-                    <button type="submit" class="cta">Ajouter au stock</button>
-                </form>
-            </section>
+          <button type="submit" class="cta">Ajouter au stock</button>
+        </form>
+      </section>
 
-            <section class="stock-results" aria-labelledby="table-titre">
-                <h2 id="table-titre">Stock actuel</h2>
-                <div id="message" role="alert" style="display:none;"></div>
-                <table aria-label="Tableau des ingrédients en stock">
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Quantité</th>
-                            <th>Unité</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-stock">
-                        <tr><td colspan="3">Aucun ingrédient pour le moment.</td></tr>
-                    </tbody>
-                </table>
-            </section>
-        </div>
-    </main>
+      <section class="stock-results" aria-labelledby="table-titre">
+        <h2 id="table-titre">Stock actuel</h2>
+        <div id="message" role="alert" style="display:none;"></div>
+        <table aria-label="Tableau des ingrédients en stock">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Quantité</th>
+              <th>Unité</th>
+            </tr>
+          </thead>
+          <tbody id="table-stock">
+            <tr><td colspan="3">Aucun ingrédient pour le moment.</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </main>
 
-    <noscript>
-        <div role="alert" style="background:#f4f4f4; color:#000; padding:1rem; border:1px solid #000; margin-top:1rem;">
-            ⚠️ JavaScript est désactivé. L’ajout et la mise à jour du stock nécessitent JavaScript pour fonctionner.
-        </div>
-    </noscript>
+  <noscript>
+    <div role="alert" style="background:#f4f4f4; color:#000; padding:1rem; border:1px solid #000; margin-top:1rem;">
+      ⚠️ JavaScript est désactivé. L’ajout et la mise à jour du stock nécessitent JavaScript pour fonctionner.
+    </div>
+  </noscript>
 
-    <script src="../js/stock.js" type="module"></script>
-    <script src="../js/nav.js"></script>
+  <script type="module" src="../js/stock.js"></script>
+  <script type="module">
+    import { chargerStockJSON, getStock, initialiserFormulaire, afficherStockDansTable } from '../js/stock.js';
 
-    <footer>
-        <p>&copy; 2025 Pro'Gramme — Tous droits réservés.</p>
-    </footer>
+    const tableStock = document.getElementById('table-stock');
+    const message = document.getElementById('message');
+
+    window.addEventListener('DOMContentLoaded', () => {
+      chargerStockJSON()
+        .then(() => {
+          afficherStockDansTable(tableStock);
+          initialiserFormulaire();
+        })
+        .catch((error) => {
+          console.error('Erreur:', error);
+          message.style.display = 'block';
+          message.textContent = 'Erreur lors du chargement du stock.';
+        });
+    });
+  </script>
+
+  <script src="../js/nav.js"></script>
+
+  <footer>
+    <p>&copy; 2025 Pro'Gramme — Tous droits réservés.</p>
+  </footer>
 </body>
 </html>
