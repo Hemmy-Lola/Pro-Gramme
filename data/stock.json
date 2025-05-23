@@ -5,4 +5,5 @@
   { "nom": "lait", "quantite": 500, "unite": "ml" },
   { "nom": "mascarpone", "quantite": 400, "unite": "g" },
   { "nom": "chocolat", "quantite": 400, "unite": "g" },
+  { "nom": "fraise", "quantite": 500, "unite": "g" }
 ]
