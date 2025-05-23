@@ -3,7 +3,6 @@
   { "nom": "sucre", "quantite": 300, "unite": "g" },
   { "nom": "oeuf", "quantite": 30, "unite": "unite" },
   { "nom": "lait", "quantite": 500, "unite": "ml" },
-  { "nom": "carottes", "quantite": 400, "unite": "g" },
-  { "nom": "pommes de terre", "quantite": 400, "unite": "g" },
-  { "nom": "poireaux", "quantite": 1, "unite": "unité" }
+  { "nom": "mascarpone", "quantite": 400, "unite": "g" },
+  { "nom": "chocolat", "quantite": 400, "unite": "g" },
 ]
