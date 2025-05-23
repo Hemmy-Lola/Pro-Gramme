@@ -9,7 +9,7 @@
 | Fonctionnalité              | Description                                                                 | Développeur responsable |
 |----------------------------|-----------------------------------------------------------------------------|--------------------------|
 | 🏠 **Dashboard**           | Vue d’ensemble centralisée des fonctionnalités clés.                        | Hemmy-Lola MATHYS              |
-| 📋 **Recettes**            | Visualisation des recettes et des ingrédients associés.                    | Abraham LAWSON                 |
+| 📋 **Recettes**            | Visualisation des recettes et des ingrédients associés, ajouts de nouvelles recettes recettes.                    | Abraham LAWSON                 |
 | 🔢 **Calculateur**         | Adaptation automatique des quantités selon le nombre de souhaités.         | Léo MASSON                     |
 | 🗓️ **Planning**           | Planification des tâches et organisation de la production.                 | Luka STANKOVIC                    |
 | 📦 **Stock**               | Suivi des quantités disponibles et gestion des entrées/sorties.            | Sira KALLOGA                    |
