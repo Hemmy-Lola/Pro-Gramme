@@ -50,7 +50,7 @@ Une attention particulière a été portée à l’**accessibilité** pour garan
 - 📊 [PageSpeed Insights](https://pagespeed.web.dev/) — Analyse de performance en ligne par Google
 
 ### **Annexes**
-- [Figma](https://www.figma.com/design/no1UXOI5bNiTlwzdakEn5s/Design-System---Pro-Gramme?node-id=1-108&t=5hr6zOFCQOP14QRc-1) - Design System et Accessibilité
+- [Figma](https://www.figma.com/design/no1UXOI5bNiTlwzdakEn5s/Design-System---Pro-Gramme?node-id=0-1&t=5hr6zOFCQOP14QRc-1) - Design System et Accessibilité
 - [Documentation Technique](https://billowy-pilot-172.notion.site/Pro-Gramme-1fef18f7a6bd803b8bdadf4e59f7b51b) - Détails techniques du projet 
 
 ---
